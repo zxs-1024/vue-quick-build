@@ -22,13 +22,11 @@ VUE_APP_FETCH_URL = 'https://production.com/'
 VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 ```
 
-## mixin
-
 ## 构建优化
 
 ### 组件异步加载
 
-结合 Vue 的异步组件和 Webpack 的代码分割功能，轻松实现路由组件的懒加载。
+结合 Vue 的异步组件和 Webpack 的代码分割功能，轻松实现路由组件的懒加载，Vue CLI 3.0 默认配置。
 
 [路由懒加载 | Vue Router](https://router.vuejs.org/zh/guide/advanced/lazy-loading.html#%E6%8A%8A%E7%BB%84%E4%BB%B6%E6%8C%89%E7%BB%84%E5%88%86%E5%9D%97)
 
@@ -280,6 +278,50 @@ VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
     "dev-build": "vue-cli-service build --mode development",
     "test-build": "vue-cli-service build --mode test",
     "build": "vue-cli-service build"
+  }
+}
+```
+
+## 代码优化
+
+### 灵活运用 mixin
+
+如果你引用了 Element UI 的分页组件，可以将通用的 data 属性、methods、created 声明钩子提取到 mixin 中。
+
+```js
+// src/mixins/tableMixin.js
+export default {
+  data() {
+    return {
+      total: 0,
+      pageNo: 1,
+      pageSize: 10,
+      tableData: [],
+      loading: false
+    }
+  },
+
+  created() {
+    this.searchData()
+  },
+
+  methods: {
+    // 防止报错，可以在组件中声明，替换 mixin 中的 searchData 函数
+    searchData() {},
+    handleSizeChange(size) {
+      this.pageSize = size
+      this.searchData()
+    },
+
+    handleCurrentChange(page) {
+      this.pageNo = page
+      this.searchData()
+    },
+
+    handleSearchData() {
+      this.pageNo = 1
+      this.searchData()
+    }
   }
 }
 ```

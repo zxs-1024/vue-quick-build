@@ -43,6 +43,8 @@ module.exports = {
     const externals = {
       vue: 'Vue',
       axios: 'axios',
+      vuex: 'Vuex',
+      jsencrypt: 'JSEncrypt',
       'vue-router': 'VueRouter',
       'element-ui': 'ELEMENT'
     }

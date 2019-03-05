@@ -1,0 +1,8 @@
+/* 改变主题色变量 */
+$--color-primary: #ef4c4f;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~https://cdn.bootcss.com/element-ui/2.5.4/theme-chalk/fonts';
+
+// 改变主题必须引入 element-ui 包
+@import '~element-ui/packages/theme-chalk/src/index';
