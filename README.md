@@ -24,9 +24,29 @@ VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 
 ## mixin
 
-## 组件异步加载
-
 ## 构建优化
+
+### 组件异步加载
+
+结合 Vue 的异步组件和 Webpack 的代码分割功能，轻松实现路由组件的懒加载。
+
+[路由懒加载 | Vue Router](https://router.vuejs.org/zh/guide/advanced/lazy-loading.html#%E6%8A%8A%E7%BB%84%E4%BB%B6%E6%8C%89%E7%BB%84%E5%88%86%E5%9D%97)
+
+```js
+export default new Router({
+  routes: [
+    {
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/About.vue')
+    }
+  ]
+})
+```
 
 ### element-ui 按需引用
 
@@ -101,9 +121,12 @@ module.exports = {
 }
 ```
 
-### 可视化 webpack 输出文件
+### 可视化 webpack 输出
 
 ```js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+
 module.exports = {
   configureWebpack: config => {
     const plugins = [new BundleAnalyzerPlugin()]
@@ -115,11 +138,70 @@ module.exports = {
 }
 ```
 
+### CDN 引入
+
+#### externals
+
+```js
+module.exports = {
+  configureWebpack: config => {
+    const externals = {
+      vue: 'Vue',
+      axios: 'axios',
+      vuex: 'Vuex',
+      jsencrypt: 'JSEncrypt',
+      'vue-router': 'VueRouter',
+      'element-ui': 'ELEMENT'
+    }
+
+    if (isProduction) {
+      config.externals = { ...externals }
+    }
+  }
+}
+```
+
+#### public/index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>vue-quick-build</title>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but zm-basic-single-sign doesn't work properly without
+        JavaScript enabled. Please enable it to continue.</strong
+      >
+    </noscript>
+    <div id="app"></div>
+
+    <!-- built files will be auto injected -->
+
+    <script src="https://cdn.bootcss.com/vue/2.6.6/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.2/vue-router.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.5.4/index.js"></script>
+    <script src="https://cdn.bootcss.com/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
+  </body>
+</html>
+```
+
 ## 项目配置
 
 ### 设置目录别名 alias
 
 ```js
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
   // 别名 alias
   chainWebpack: config => {
@@ -132,6 +214,8 @@ module.exports = {
 ```
 
 ### 代理配置
+
+[devServer.proxy | webpack](https://webpack.docschina.org/configuration/dev-server/#devserver-proxy)
 
 ```js
 module.exports = {
@@ -151,9 +235,17 @@ module.exports = {
 }
 ```
 
+请求到 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users，注意 api 已经被 pathRewrite 替换。
+
 ### 环境配置
 
-新建 .env.development 、.env.test、.env.production 文件
+新建 .env.development 、.env.test、.env.production 文件。
+
+Vue CLI 启动时会将 .env 文件中的配置注入到环境变量中，e.g `NODE_ENV`。
+
+除了 `NODE_ENV`、 `BASE_URL`，其余变量需以 `VUE_APP_` 开头。
+
+详细配置请看 [环境变量和模式 | Vue CLI](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F)
 
 ```js
 // .env.development
@@ -177,6 +269,8 @@ VUE_APP_NAME = 'vue-quick-build'
 VUE_APP_FETCH_URL = 'https://production.com/'
 VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 ```
+
+在 package.json 脚本中加入：
 
 ```json
 // package.json

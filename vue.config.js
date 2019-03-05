@@ -35,6 +35,7 @@ module.exports = {
         sourceMap: false,
         parallel: true
       }),
+      // 可视化 webpack 输出
       new BundleAnalyzerPlugin()
     ]
 
@@ -64,7 +65,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://development.com/',
+        target: 'http://192.168.0.1:8080/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
