@@ -55,6 +55,16 @@ module.exports = {
     }
   },
 
+  // use pug
+  chainWebpack: config => {
+    config.module
+      .rule('pug')
+      .test(/\.pug$/)
+      .use('pug-plain-loader')
+      .loader('pug-plain-loader')
+      .end()
+  },
+
   // 别名 alias
   chainWebpack: config => {
     config.resolve.alias

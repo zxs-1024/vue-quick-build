@@ -233,7 +233,7 @@ module.exports = {
 }
 ```
 
-请求到 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users，注意 api 已经被 pathRewrite 替换。
+> 请求到 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users，注意 api 已经被 pathRewrite 替换。
 
 ### 环境配置
 
@@ -278,6 +278,30 @@ VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
     "dev-build": "vue-cli-service build --mode development",
     "test-build": "vue-cli-service build --mode test",
     "build": "vue-cli-service build"
+  }
+}
+```
+
+### use pug
+
+> [添加一个新的 Loader | Vue CLI](https://cli.vuejs.org/zh/guide/webpack.html#%E4%BF%AE%E6%94%B9-loader-%E9%80%89%E9%A1%B9)
+
+安装 pug loader
+
+```bash
+yarn add pug pug-plain-loader --dev
+```
+
+```js
+module.exports = {
+  // use pug
+  chainWebpack: config => {
+    config.module
+      .rule('pug')
+      .test(/\.pug$/)
+      .use('pug-plain-loader')
+      .loader('pug-plain-loader')
+      .end()
   }
 }
 ```
