@@ -1,8 +1,6 @@
-# vue-quick-build
+# 构建优化
 
-## 构建优化
-
-### 组件异步加载
+## 组件异步加载
 
 结合 Vue 的异步组件和 Webpack 的代码分割功能，轻松实现路由组件的懒加载，Vue CLI 3.0 默认配置。
 
@@ -24,7 +22,7 @@ export default new Router({
 })
 ```
 
-### element-ui 按需引入
+## element-ui 按需引入
 
 借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的。
 
@@ -55,7 +53,7 @@ module.exports = {
 }
 ```
 
-### gzip 压缩
+## gzip 压缩
 
 生成类似 chunk-vendors.f5cbf099.js.gz 格式的文件。
 
@@ -90,7 +88,7 @@ module.exports = {
 }
 ```
 
-### 删除 console.log
+## 删除 console.log
 
 删除 console.log，减少代码体积。
 
@@ -129,7 +127,7 @@ module.exports = {
 }
 ```
 
-### 可视化 webpack 构建
+## 可视化 webpack 构建
 
 可视化 webpack 打包文件优化工具，帮助你分析打包文件，实现更好的优化。
 
@@ -156,7 +154,7 @@ module.exports = {
 }
 ```
 
-### CDN 引入
+## CDN 引入
 
 使用 externals 配置，构建时忽略 npm 模块。
 
@@ -211,9 +209,9 @@ module.exports = {
 </html>
 ```
 
-## 项目配置
+# 项目配置
 
-### 设置目录别名 alias
+## 设置目录别名 alias
 
 ```js
 function resolve(dir) {
@@ -231,7 +229,7 @@ module.exports = {
 }
 ```
 
-### 代理配置
+## 代理配置
 
 请求 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users。
 
@@ -257,7 +255,7 @@ module.exports = {
 }
 ```
 
-### 环境配置
+## 环境配置
 
 新建 .env.development 、.env.test、.env.production 文件。
 
@@ -302,7 +300,7 @@ VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 }
 ```
 
-### use pug
+## use pug
 
 Pug 是一款健壮、灵活、功能丰富的模板引擎，由 Jade 改名而来。
 
@@ -311,7 +309,9 @@ Pug 是一款健壮、灵活、功能丰富的模板引擎，由 Jade 改名而�
 安装 pug loader
 
 ```bash
-yarn add pug pug-plain-loader --dev
+yarn add pug pug-plain-loader -D
+// or
+npm install pug pug-plain-loader -D
 ```
 
 ```js
@@ -328,9 +328,9 @@ module.exports = {
 }
 ```
 
-## vue 小技巧
+# vue 小技巧
 
-### 灵活运用 mixin
+## 灵活运用 mixin
 
 如果你引用了 Element UI 的分页组件，可以将通用的 data 属性、methods、created 声明钩子提取到 mixin 中。
 
