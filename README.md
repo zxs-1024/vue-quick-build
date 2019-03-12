@@ -1,27 +1,5 @@
 # vue-quick-build
 
-:wrench: 使用 Vue CLI 3.0 快速构建前端应用
-
-## Util
-
-### [axios](https://github.com/axios/axios)
-
-Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
-
-### [jsencrypt](<[JSEncrypt](http://travistidwell.com/jsencrypt/)>)
-
-RSA Javascript 加密的解决方案
-
-## 环境变量
-
-```bash
-NODE_ENV = 'production'
-BASE_URL = '/'
-VUE_APP_NAME = 'vue-quick-build'
-VUE_APP_FETCH_URL = 'https://production.com/'
-VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
-```
-
 ## 构建优化
 
 ### 组件异步加载
@@ -46,7 +24,19 @@ export default new Router({
 })
 ```
 
-### element-ui 按需引用
+### element-ui 按需引入
+
+借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的。
+
+首先，安装 babel-plugin-component：
+
+```bash
+yarn add babel-plugin-component -D
+// or
+npm install babel-plugin-component -D
+```
+
+[Element | 按需引入](http://element-cn.eleme.io/#/zh-CN/component/quickstart#an-xu-yin-ru)
 
 ```js
 // babel.config.js
@@ -66,6 +56,16 @@ module.exports = {
 ```
 
 ### gzip 压缩
+
+生成类似 chunk-vendors.f5cbf099.js.gz 格式的文件。
+
+首先，安装 compression-webpack-plugin：
+
+```bash
+yarn add compression-webpack-plugin -D
+// or
+npm install compression-webpack-plugin -D
+```
 
 ```js
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -91,6 +91,16 @@ module.exports = {
 ```
 
 ### 删除 console.log
+
+删除 console.log，减少代码体积。
+
+首先，安装 uglifyjs-webpack-plugin：
+
+```bash
+yarn add uglifyjs-webpack-plugin -D
+// or
+npm install uglifyjs-webpack-plugin -D
+```
 
 ```js
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -119,7 +129,17 @@ module.exports = {
 }
 ```
 
-### 可视化 webpack 输出
+### 可视化 webpack 构建
+
+可视化 webpack 打包文件优化工具，帮助你分析打包文件，实现更好的优化。
+
+首先，安装 webpack-bundle-analyzer：
+
+```bash
+yarn add webpack-bundle-analyzer -D
+// or
+npm install webpack-bundle-analyzer -D
+```
 
 ```js
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -138,7 +158,7 @@ module.exports = {
 
 ### CDN 引入
 
-#### externals
+使用 externals 配置，构建时忽略 npm 模块。
 
 ```js
 module.exports = {
@@ -159,7 +179,7 @@ module.exports = {
 }
 ```
 
-#### public/index.html
+在 public/index.html 配置 CND 引入
 
 ```html
 <!DOCTYPE html>
@@ -213,6 +233,10 @@ module.exports = {
 
 ### 代理配置
 
+请求 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users。
+
+> 注意 api 已经被 pathRewrite 替换。
+
 [devServer.proxy | webpack](https://webpack.docschina.org/configuration/dev-server/#devserver-proxy)
 
 ```js
@@ -233,17 +257,13 @@ module.exports = {
 }
 ```
 
-> 请求到 /api/users 现在会被代理到请求 http://192.168.0.1:8080/users，注意 api 已经被 pathRewrite 替换。
-
 ### 环境配置
 
 新建 .env.development 、.env.test、.env.production 文件。
 
-Vue CLI 启动时会将 .env 文件中的配置注入到环境变量中，e.g `NODE_ENV`。
+> Vue CLI 启动时会将 .env 文件中的配置注入到环境变量中，除了 `NODE_ENV`、 `BASE_URL`，其余变量需以 `VUE_APP_` 开头。
 
-除了 `NODE_ENV`、 `BASE_URL`，其余变量需以 `VUE_APP_` 开头。
-
-详细配置请看 [环境变量和模式 | Vue CLI](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F)
+[环境变量和模式 | Vue CLI](https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F)
 
 ```js
 // .env.development
@@ -268,7 +288,7 @@ VUE_APP_FETCH_URL = 'https://production.com/'
 VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 ```
 
-在 package.json 脚本中加入：
+在 package.json 脚本中加入快捷命令：
 
 ```json
 // package.json
@@ -284,7 +304,9 @@ VUE_APP_PUBLIC_KEY = 'VUE_APP_PUBLIC_KEY'
 
 ### use pug
 
-> [添加一个新的 Loader | Vue CLI](https://cli.vuejs.org/zh/guide/webpack.html#%E4%BF%AE%E6%94%B9-loader-%E9%80%89%E9%A1%B9)
+Pug 是一款健壮、灵活、功能丰富的模板引擎，由 Jade 改名而来。
+
+[添加一个新的 Loader | Vue CLI](https://cli.vuejs.org/zh/guide/webpack.html#%E4%BF%AE%E6%94%B9-loader-%E9%80%89%E9%A1%B9)
 
 安装 pug loader
 
@@ -306,7 +328,7 @@ module.exports = {
 }
 ```
 
-## 代码优化
+## vue 小技巧
 
 ### 灵活运用 mixin
 
