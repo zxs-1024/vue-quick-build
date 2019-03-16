@@ -334,6 +334,8 @@ module.exports = {
 
 [multi-page | Vue CLI](https://cli.vuejs.org/zh/config/#pages)
 
+### 配置
+
 ```js
 module.exports = {
   pages: {
@@ -359,6 +361,51 @@ module.exports = {
   }
 }
 ```
+
+### 目录结构
+
+```bash
+.
+├── README.md
+├── babel.config.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   └── index.html
+├── src
+│   ├── assets
+│   │   └── logo.png
+│   ├── axios
+│   │   └── index.js
+│   ├── components
+│   │   └── HelloWorld.vue
+│   ├── index
+│   │   ├── App.vue
+│   │   ├── main.js
+│   │   ├── router.js
+│   │   └── views
+│   │       ├── About.vue
+│   │       └── Home.vue
+│   ├── mixins
+│   │   └── tableMixin.js
+│   ├── store.js
+│   ├── style
+│   │   ├── element-variables.scss
+│   │   └── index.scss
+│   ├── subpage
+│   │   ├── App.vue
+│   │   ├── main.js
+│   │   ├── router.js
+│   │   └── views
+│   │       ├── About.vue
+│   │       └── Home.vue
+│   └── util
+│       └── encrypt.js
+├── vue.config.js
+└── yarn.lock
+```
+
 
 # vue 小技巧
 
@@ -403,3 +450,4 @@ export default {
   }
 }
 ```
+
